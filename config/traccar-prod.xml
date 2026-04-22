@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE properties SYSTEM 'http://java.sun.com/dtd/properties.dtd'>
+<properties>
+    <!-- 
+        Traccar Production Configuration Blueprint
+        Optimized for High Performance (Netty) and Scalability
+    -->
+
+    <!-- Database Connection -->
+    <entry key='database.driver'>org.postgresql.Driver</entry>
+    <entry key='database.url'>jdbc:postgresql://localhost:5432/traccar</entry>
+    <entry key='database.user'>traccar</entry>
+    <entry key='database.password'>[CHANGE_ME]</entry>
+
+    <!-- Web Server Settings -->
+    <entry key='server.address'>0.0.0.0</entry>
+    <entry key='web.port'>8082</entry>
+    <entry key='web.path'>./modern</entry>
+    <entry key='web.cacheControl'>max-age=3600, public</entry>
+    
+    <!-- Logging -->
+    <entry key='logger.file'>/var/log/traccar/tracker-server.log</entry>
+    <entry key='logger.level'>info</entry>
+
+    <!-- Performance & Scale Tuning -->
+    <entry key='server.traffic.enable'>true</entry>
+    <entry key='database.connectionPooling'>true</entry>
+    <entry key='status.timeout'>120</entry>
+    <entry key='status.ignoreOffline'>true</entry>
+    <entry key='status.updateDelay'>5</entry>
+
+    <!-- Protocol Hardening -->
+    <entry key='osmand.port'>5055</entry>
+    <entry key='gt06.port'>5023</entry>
+    <entry key='teltonika.port'>5027</entry>
+    <entry key='h02.port'>5013</entry>
+
+    <!-- Service Management -->
+    <entry key='geocoder.enable'>false</entry>
+    <entry key='filter.enable'>true</entry>
+    <entry key='filter.zero'>true</entry>
+    <entry key='filter.duplicate'>true</entry>
+
+</properties>

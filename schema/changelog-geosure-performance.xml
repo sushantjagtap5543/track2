@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+  <changeSet id="geosure-performance-indexes" author="geosure">
+    <createIndex tableName="tc_positions" indexName="idx_positions_device_fixtime">
+      <column name="deviceid" />
+      <column name="fixtime" />
+    </createIndex>
+    <createIndex tableName="tc_events" indexName="idx_events_device_eventtime">
+      <column name="deviceid" />
+      <column name="eventtime" />
+    </createIndex>
+  </changeSet>
+
+</databaseChangeLog>
