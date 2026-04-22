@@ -25,9 +25,10 @@
     <!-- Performance & Scale Tuning -->
     <entry key='server.traffic.enable'>true</entry>
     <entry key='database.connectionPooling'>true</entry>
-    <entry key='status.timeout'>120</entry>
+    <entry key='status.timeout'>60</entry>
     <entry key='status.ignoreOffline'>true</entry>
-    <entry key='status.updateDelay'>5</entry>
+    <entry key='status.updateDelay'>1</entry>
+    <entry key='server.buffering.threshold'>0</entry>
 
     <!-- Protocol Hardening -->
     <entry key='osmand.port'>5055</entry>
@@ -35,10 +36,19 @@
     <entry key='teltonika.port'>5027</entry>
     <entry key='h02.port'>5013</entry>
 
-    <!-- Service Management -->
+    <!-- Service Management & Data Governance -->
     <entry key='geocoder.enable'>false</entry>
     <entry key='filter.enable'>true</entry>
+    <entry key='filter.invalid'>true</entry>
     <entry key='filter.zero'>true</entry>
     <entry key='filter.duplicate'>true</entry>
+    <entry key='filter.outdated'>true</entry>
+    <entry key='filter.future'>86400</entry>
+    <entry key='filter.accuracy'>50</entry>
+    <entry key='filter.maxSpeed'>250</entry> <!-- Knots -->
+
+    <!-- Redis Broadcasting -->
+    <entry key='broadcast.type'>redis</entry>
+    <entry key='broadcast.address'>redis://localhost:6379</entry>
 
 </properties>
