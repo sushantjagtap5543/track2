@@ -4,10 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.traccar.ProtocolTest;
 import org.traccar.model.Position;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class MeitrackProtocolDecoderTest extends ProtocolTest {
 
     @Test

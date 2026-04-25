@@ -937,6 +937,13 @@ public final class Keys {
             List.of(KeyType.SERVER));
 
     /**
+     * Enable user registration.
+     */
+    public static final ConfigKey<Boolean> REGISTRATION_ENABLED = new BooleanConfigKey(
+            "registration.enabled",
+            List.of(KeyType.CONFIG));
+
+    /**
      * Host for raw data forwarding.
      */
     public static final ConfigKey<String> SERVER_FORWARD = new StringConfigKey(
@@ -2144,6 +2151,28 @@ public final class Keys {
      */
     public static final ConfigKey<Boolean> BROADCAST_SECONDARY = new BooleanConfigKey(
             "broadcast.secondary",
+            List.of(KeyType.CONFIG));
+
+    /**
+     * Number of months to keep position data in the local database. Older data is pruned after backup.
+     */
+    public static final ConfigKey<Integer> DATABASE_RETENTION_MONTHS = new IntegerConfigKey(
+            "database.retentionMonths",
+            List.of(KeyType.CONFIG),
+            6);
+
+    /**
+     * Google Drive folder ID for storing backups.
+     */
+    public static final ConfigKey<String> GOOGLE_DRIVE_FOLDER_ID = new StringConfigKey(
+            "google.drive.folderId",
+            List.of(KeyType.CONFIG));
+
+    /**
+     * Path to Google Drive credentials JSON file.
+     */
+    public static final ConfigKey<String> GOOGLE_DRIVE_CREDENTIALS_PATH = new StringConfigKey(
+            "google.drive.credentialsPath",
             List.of(KeyType.CONFIG));
 
 }

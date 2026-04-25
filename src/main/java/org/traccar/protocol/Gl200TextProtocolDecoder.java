@@ -1769,7 +1769,9 @@ public class Gl200TextProtocolDecoder extends BaseProtocolDecoder {
                 if (result instanceof Position position) {
                     position.set(Position.KEY_TYPE, type);
                 } else {
-                    for (Position p : (List<Position>) result) {
+                    @SuppressWarnings("unchecked")
+                    var positions = (List<Position>) result;
+                    for (Position p : positions) {
                         p.set(Position.KEY_TYPE, type);
                     }
                 }

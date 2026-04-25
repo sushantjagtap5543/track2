@@ -166,9 +166,11 @@ public abstract class BaseProtocolDecoder extends ExtendedObjectDecoder {
             if (decodedMessage instanceof Position position) {
                 deviceIds.add(position.getDeviceId());
             } else if (decodedMessage instanceof Collection) {
-                Collection<Position> positions = (Collection) decodedMessage;
-                for (Position position : positions) {
-                    deviceIds.add(position.getDeviceId());
+                Collection<?> positions = (Collection<?>) decodedMessage;
+                for (Object o : positions) {
+                    if (o instanceof Position position) {
+                        deviceIds.add(position.getDeviceId());
+                    }
                 }
             }
         }

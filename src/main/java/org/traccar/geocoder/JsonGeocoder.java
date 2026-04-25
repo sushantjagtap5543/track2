@@ -46,7 +46,7 @@ public abstract class JsonGeocoder implements Geocoder {
         if (cacheSize > 0) {
             this.cache = Collections.synchronizedMap(new LinkedHashMap<>() {
                 @Override
-                protected boolean removeEldestEntry(Map.Entry eldest) {
+                protected boolean removeEldestEntry(Map.Entry<Map.Entry<Double, Double>, String> eldest) {
                     return size() > cacheSize;
                 }
             });

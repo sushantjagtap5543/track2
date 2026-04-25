@@ -499,7 +499,7 @@ public class HuabaoProtocolDecoder extends BaseProtocolDecoder {
                 }
                 case 0x8C -> position.set(Position.KEY_OBD_ODOMETER, buf.readUnsignedInt() * 100L);
                 case 0x8D -> position.set(Position.KEY_ODOMETER_TRIP, buf.readUnsignedShort() * 1000L);
-                case 0x8E -> position.set(Position.KEY_FUEL, buf.readUnsignedByte());
+                case 0x8E -> position.set(Position.KEY_FUEL_LEVEL, buf.readUnsignedByte());
                 case 0xA0 -> {
                     String codes = buf.readCharSequence(length, StandardCharsets.US_ASCII).toString();
                     position.set(Position.KEY_DTCS, codes.replace(',', ' '));
@@ -1432,7 +1432,9 @@ public class HuabaoProtocolDecoder extends BaseProtocolDecoder {
             position.setSpeed(UnitsConverter.knotsFromKph(buf.readUnsignedShort() * 0.1));
             position.setCourse(buf.readUnsignedShort());
 
-            // TODO more positions and g sensor data
+            if (buf.readableBytes() >= 12) {
+                position.set(Position.KEY_G_SENSOR, "[" + buf.readInt() + "," + buf.readInt() + "," + buf.readInt() + "]");
+            }
 
             return position;
 

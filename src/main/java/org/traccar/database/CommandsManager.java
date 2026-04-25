@@ -90,7 +90,7 @@ public class CommandsManager implements BroadcastInterface {
             if (smsManager == null) {
                 throw new RuntimeException("SMS not configured");
             }
-            if (position != null) {
+            if (position != null && protocol != null) {
                 protocol.sendTextCommand(device.getPhone(), command);
             } else if (command.getType().equals(Command.TYPE_CUSTOM)) {
                 smsManager.sendMessage(device.getPhone(), command.getString(Command.KEY_DATA), true);

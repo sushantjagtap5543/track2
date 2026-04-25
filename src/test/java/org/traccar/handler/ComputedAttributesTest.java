@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ComputedAttributesTest {
 
     @Test
+    @SuppressWarnings("deprecation")
     public void testComputedAttributes() {
 
         ComputedAttributesHandler handler = new ComputedAttributesHandler(new Config(), null, false);

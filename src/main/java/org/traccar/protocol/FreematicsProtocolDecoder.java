@@ -90,7 +90,9 @@ public class FreematicsProtocolDecoder extends BaseProtocolDecoder {
             String value = data[1];
             if (key == 0x0) {
                 if (position != null) {
-                    position.setTime(dateBuilder.getDate());
+                    if (dateBuilder != null) {
+                        position.setTime(dateBuilder.getDate());
+                    }
                     positions.add(position);
                 }
                 position = new Position(getProtocolName());
@@ -100,18 +102,22 @@ public class FreematicsProtocolDecoder extends BaseProtocolDecoder {
                 switch (key) {
                     case 0x11 -> {
                         value = ("000000" + value).substring(value.length());
-                        dateBuilder.setDateReverse(
-                                Integer.parseInt(value.substring(0, 2)),
-                                Integer.parseInt(value.substring(2, 4)),
-                                Integer.parseInt(value.substring(4)));
+                        if (dateBuilder != null) {
+                            dateBuilder.setDateReverse(
+                                    Integer.parseInt(value.substring(0, 2)),
+                                    Integer.parseInt(value.substring(2, 4)),
+                                    Integer.parseInt(value.substring(4)));
+                        }
                     }
                     case 0x10 -> {
                         value = ("00000000" + value).substring(value.length());
-                        dateBuilder.setTime(
-                                Integer.parseInt(value.substring(0, 2)),
-                                Integer.parseInt(value.substring(2, 4)),
-                                Integer.parseInt(value.substring(4, 6)),
-                                Integer.parseInt(value.substring(6)) * 10);
+                        if (dateBuilder != null) {
+                            dateBuilder.setTime(
+                                    Integer.parseInt(value.substring(0, 2)),
+                                    Integer.parseInt(value.substring(2, 4)),
+                                    Integer.parseInt(value.substring(4, 6)),
+                                    Integer.parseInt(value.substring(6)) * 10);
+                        }
                     }
                     case 0xA -> {
                         position.setValid(true);
@@ -144,7 +150,9 @@ public class FreematicsProtocolDecoder extends BaseProtocolDecoder {
             if (!position.getValid()) {
                 getLastLocation(position, null);
             }
-            position.setTime(dateBuilder.getDate());
+            if (dateBuilder != null) {
+                position.setTime(dateBuilder.getDate());
+            }
             positions.add(position);
         }
 

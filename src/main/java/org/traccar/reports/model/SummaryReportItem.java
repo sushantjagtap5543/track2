@@ -42,4 +42,34 @@ public class SummaryReportItem extends BaseReportItem {
         this.endHours = endHours;
     }
 
+    private long ignitionOnDuration;
+
+    public long getIgnitionOnDuration() {
+        return ignitionOnDuration;
+    }
+
+    public void setIgnitionOnDuration(long ignitionOnDuration) {
+        this.ignitionOnDuration = ignitionOnDuration;
+    }
+
+    private long ignitionOffDuration;
+
+    public long getIgnitionOffDuration() {
+        return ignitionOffDuration;
+    }
+
+    public void setIgnitionOffDuration(long ignitionOffDuration) {
+        this.ignitionOffDuration = ignitionOffDuration;
+    }
+
+    private long ignitionIdleDuration;
+
+    public long getIgnitionIdleDuration() {
+        return ignitionIdleDuration;
+    }
+
+    public void setIgnitionIdleDuration(long ignitionIdleDuration) {
+        this.ignitionIdleDuration = ignitionIdleDuration;
+    }
+
 }

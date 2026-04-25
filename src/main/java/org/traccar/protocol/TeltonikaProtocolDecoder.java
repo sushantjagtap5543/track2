@@ -372,9 +372,11 @@ public class TeltonikaProtocolDecoder extends BaseProtocolDecoder {
                 CellTower cellTower;
                 if (cid2g != null) {
                     cellTower = CellTower.fromLacCid(getConfig(), lac, cid2g);
-                } else {
-                    cellTower = CellTower.fromLacCid(getConfig(), lac, cid4g);
+                } else if (cid4g != null) {
+                    cellTower = CellTower.fromLacCid(getConfig(), lac, cid4g.longValue());
                     network.setRadioType("lte");
+                } else {
+                    return;
                 }
                 long operator = position.getInteger(Position.KEY_OPERATOR);
                 if (operator >= 1000) {
@@ -625,7 +627,8 @@ public class TeltonikaProtocolDecoder extends BaseProtocolDecoder {
             Long driverMsb = (Long) position.getAttributes().get("io195");
             Long driverLsb = (Long) position.getAttributes().get("io196");
             if (driverMsb != null && driverLsb != null) {
-                String driver = new String(ByteBuffer.allocate(16).putLong(driverMsb).putLong(driverLsb).array());
+                String driver = new String(ByteBuffer.allocate(16)
+                        .putLong(driverMsb).putLong(driverLsb).array());
                 position.set(Position.KEY_DRIVER_UNIQUE_ID, driver);
             }
         }

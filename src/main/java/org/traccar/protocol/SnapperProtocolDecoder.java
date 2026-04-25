@@ -35,6 +35,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class SnapperProtocolDecoder extends BaseProtocolDecoder {
@@ -78,13 +79,13 @@ public class SnapperProtocolDecoder extends BaseProtocolDecoder {
         }
     }
 
-    private void decodeEvents(Position position, ByteBuf buf) {
-
+    private Date decodeEvents(Position position, ByteBuf buf) {
         position.set(Position.KEY_EVENT, buf.readUnsignedByte());
         buf.readUnsignedByte(); // info 1
         buf.readUnsignedByte(); // info 2
-        buf.readUnsignedIntLE(); // timestamp
+        Date time = new Date(buf.readUnsignedIntLE() * 1000L);
         buf.readUnsignedByte(); // timezone
+        return time;
     }
 
     private void decodeTechInfo(Position position, ByteBuf buf) {
@@ -185,8 +186,8 @@ public class SnapperProtocolDecoder extends BaseProtocolDecoder {
 
         return switch (type) {
             case MSG_SEND_EVENTS -> {
-                decodeEvents(position, buf);
-                getLastLocation(position, null); // TODO read timestamp
+                Date time = decodeEvents(position, buf);
+                getLastLocation(position, time);
                 yield position;
             }
             case MSG_SEND_TECH_INFO -> {
@@ -205,7 +206,10 @@ public class SnapperProtocolDecoder extends BaseProtocolDecoder {
                     int partLength = buf.readUnsignedShortLE();
                     switch (partType) {
                         case MSG_SEND_EVENTS:
-                            decodeEvents(position, buf);
+                            Date time = decodeEvents(position, buf);
+                            if (position.getFixTime() == null) {
+                                position.setTime(time);
+                            }
                             break;
                         case MSG_SEND_TECH_INFO:
                             decodeTechInfo(position, buf);

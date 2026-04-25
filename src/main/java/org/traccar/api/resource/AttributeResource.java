@@ -64,10 +64,14 @@ public class AttributeResource extends ExtendedObjectResource<Attribute> {
         Position position = storage.getObject(Position.class, new Request(
                 new Columns.All(),
                 new Condition.LatestPositions(deviceId)));
+        if (position == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Latest position not found").build();
+        }
 
         var key = new Object();
         try {
             cacheManager.addDevice(position.getDeviceId(), key);
+            @SuppressWarnings("deprecation")
             Object result = computedAttributesHandler.computeAttribute(entity, position);
             if (result != null) {
                 return switch (entity.getType()) {

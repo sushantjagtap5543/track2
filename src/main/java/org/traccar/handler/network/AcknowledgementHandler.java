@@ -38,13 +38,13 @@ public class AcknowledgementHandler extends ChannelOutboundHandlerAdapter {
     }
 
     public static class EventDecoded implements Event {
-        private final Collection<Object> objects;
+        private final Collection<?> objects;
 
-        public EventDecoded(Collection<Object> objects) {
+        public EventDecoded(Collection<?> objects) {
             this.objects = objects;
         }
 
-        public Collection<Object> getObjects() {
+        public Collection<?> getObjects() {
             return objects;
         }
     }

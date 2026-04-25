@@ -37,8 +37,5 @@ public class WeakValueMap<K, V> {
         return (weakReference != null) ? weakReference.get() : null;
     }
 
-    private void clean() {
-        map.entrySet().removeIf(entry -> entry.getValue().get() == null);
-    }
 
 }

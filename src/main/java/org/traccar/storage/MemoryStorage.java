@@ -20,6 +20,7 @@ import org.traccar.model.BaseModel;
 import org.traccar.model.Pair;
 import org.traccar.model.Permission;
 import org.traccar.model.Server;
+import org.traccar.model.Position;
 import org.traccar.storage.query.Condition;
 import org.traccar.storage.query.Request;
 
@@ -55,8 +56,17 @@ public class MemoryStorage extends Storage {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> Stream<T> getObjectsStream(Class<T> clazz, Request request) {
-        return objects.computeIfAbsent(clazz, key -> new HashMap<>()).values().stream()
+        var stream = objects.computeIfAbsent(clazz, key -> new HashMap<>()).values().stream();
+        if (request.getCondition() instanceof Condition.LatestPositions condition) {
+            return stream
+                    .filter(object -> ((Position) object).getDeviceId() == condition.getDeviceId())
+                    .sorted((o1, o2) -> Long.compare(((BaseModel) o2).getId(), ((BaseModel) o1).getId()))
+                    .limit(1)
+                    .map(object -> (T) object);
+        }
+        return stream
                 .filter(object -> checkCondition(request.getCondition(), object))
                 .map(object -> (T) object);
     }
@@ -69,7 +79,8 @@ public class MemoryStorage extends Storage {
         if (genericCondition instanceof Condition.Compare condition) {
 
             Object value = retrieveValue(object, condition.getColumn());
-            int result = ((Comparable) value).compareTo(condition.getValue());
+            @SuppressWarnings("unchecked")
+            int result = ((Comparable<Object>) value).compareTo(condition.getValue());
             return switch (condition.getOperator()) {
                 case "<" -> result < 0;
                 case "<=" -> result <= 0;
@@ -82,9 +93,11 @@ public class MemoryStorage extends Storage {
         } else if (genericCondition instanceof Condition.Between condition) {
 
             Object fromValue = retrieveValue(object, condition.getColumn());
-            int fromResult = ((Comparable) fromValue).compareTo(condition.getFromValue());
+            @SuppressWarnings("unchecked")
+            int fromResult = ((Comparable<Object>) fromValue).compareTo(condition.getFromValue());
             Object toValue = retrieveValue(object, condition.getColumn());
-            int toResult = ((Comparable) toValue).compareTo(condition.getToValue());
+            @SuppressWarnings("unchecked")
+            int toResult = ((Comparable<Object>) toValue).compareTo(condition.getToValue());
             return fromResult >= 0 && toResult <= 0;
 
         } else if (genericCondition instanceof Condition.Binary condition) {
@@ -107,10 +120,11 @@ public class MemoryStorage extends Storage {
                         }
                     });
 
-        } else if (genericCondition instanceof Condition.LatestPositions) {
-
+        } else if (genericCondition instanceof Condition.LatestPositions condition) {
+            if (object instanceof Position position) {
+                return position.getDeviceId() == condition.getDeviceId();
+            }
             return false;
-
         }
 
         return false;

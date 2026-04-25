@@ -556,8 +556,9 @@ public class Gt06ProtocolDecoder extends BaseProtocolDecoder {
         } else if (type == MSG_X1_GPS && variant != Variant.SL4X) {
 
             buf.readUnsignedInt(); // data and alarm
-
-            decodeGps(position, buf, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));
+            if (deviceSession != null) {
+                decodeGps(position, buf, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));
+            }
 
             buf.readUnsignedShort(); // terminal info
 
@@ -673,7 +674,7 @@ public class Gt06ProtocolDecoder extends BaseProtocolDecoder {
 
             return position;
 
-        } else if (type == MSG_LBS_MULTIPLE_3 && variant == Variant.SR411_MINI) {
+        } else if (type == MSG_LBS_MULTIPLE_3 && variant == Variant.SR411_MINI && deviceSession != null) {
 
             decodeGps(position, buf, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));
 
@@ -808,8 +809,9 @@ public class Gt06ProtocolDecoder extends BaseProtocolDecoder {
         } else if (type == MSG_IBUTTON) {
 
             buf.skipBytes(8); // imei
-
-            decodeGps(position, buf, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));
+            if (deviceSession != null) {
+                decodeGps(position, buf, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));
+            }
 
             decodeLbs(position, buf, type, false);
 
@@ -834,7 +836,9 @@ public class Gt06ProtocolDecoder extends BaseProtocolDecoder {
             }
 
             if (hasGps(type)) {
-                decodeGps(position, buf, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));
+                if (deviceSession != null) {
+                    decodeGps(position, buf, false, deviceSession.get(DeviceSession.KEY_TIMEZONE));
+                }
             } else {
                 getLastLocation(position, null);
             }
@@ -1056,7 +1060,7 @@ public class Gt06ProtocolDecoder extends BaseProtocolDecoder {
                 }
                 decodeGps(
                         position, buf, false, jc400, jc400, jc400, jc400,
-                        deviceSession.get(DeviceSession.KEY_TIMEZONE));
+                        deviceSession != null ? deviceSession.get(DeviceSession.KEY_TIMEZONE) : null);
             } else {
                 getLastLocation(position, decodeDate(buf, deviceSession));
             }

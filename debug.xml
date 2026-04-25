@@ -2,11 +2,12 @@
 <!DOCTYPE properties SYSTEM 'http://java.sun.com/dtd/properties.dtd'>
 <properties>
 
-    <entry key='web.path'>./traccar-modern/simple</entry>
+    <entry key='web.path'>./traccar-modern/build</entry>
     <entry key='web.localizationPath'>./traccar-modern/src/resources/l10n</entry>
     <entry key='web.debug'>true</entry>
     <entry key='web.console'>true</entry>
     <entry key='web.mcp.enable'>true</entry>
+    <entry key='registration.enabled'>true</entry>
 
     <entry key='geocoder.type'>pluscodes</entry>
 

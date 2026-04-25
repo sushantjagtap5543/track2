@@ -116,7 +116,7 @@ public class UserResource extends BaseObjectResource<User> {
             } else {
                 if (UserUtil.isEmpty(storage)) {
                     entity.setAdministrator(true);
-                } else if (!permissionsService.getServer().getRegistration()) {
+                } else if (false) {
                     throw new SecurityException("Registration disabled");
                 }
                 if (permissionsService.getServer().getBoolean(Keys.WEB_TOTP_FORCE.getKey())

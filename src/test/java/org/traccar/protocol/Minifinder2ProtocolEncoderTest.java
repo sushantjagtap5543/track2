@@ -3,9 +3,6 @@ package org.traccar.protocol;
 import org.junit.jupiter.api.Test;
 import org.traccar.ProtocolTest;
 import org.traccar.model.Command;
-import org.traccar.model.Device;
-
-import static org.mockito.Mockito.when;
 
 public class Minifinder2ProtocolEncoderTest extends ProtocolTest {
 

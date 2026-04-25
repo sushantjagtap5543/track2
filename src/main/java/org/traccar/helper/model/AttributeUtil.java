@@ -46,7 +46,7 @@ public final class AttributeUtil {
         return lookup(new CacheProvider(cacheManager, deviceId), key);
     }
 
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings("unchecked")
     public static <T> T lookup(Provider provider, ConfigKey<T> key) {
         Device device = provider.getDevice();
         Object result = device.getAttributes().get(key.getKey());

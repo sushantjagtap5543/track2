@@ -64,7 +64,8 @@ public class PermissionsResource  extends BaseResource {
         Set<String> keys = null;
         for (LinkedHashMap<String, Long> entity: entities) {
             if (keys != null & !entity.keySet().equals(keys)) {
-                throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).build());
+                Response response = Response.status(Response.Status.BAD_REQUEST).build();
+                throw new WebApplicationException(response);
             }
             keys = entity.keySet();
         }

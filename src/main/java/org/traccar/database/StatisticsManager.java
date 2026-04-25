@@ -172,7 +172,7 @@ public class StatisticsManager {
         messagesStored += 1;
         if (deviceId != 0) {
             deviceProtocols.put(deviceId, protocol);
-            deviceMessages.merge(deviceId, 1, Integer::sum);
+            deviceMessages.merge(deviceId, 1, (a, b) -> Integer.sum(a, b));
         }
     }
 

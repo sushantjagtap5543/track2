@@ -36,7 +36,9 @@ public class Permission {
     static {
         try {
             for (Class<?> clazz : ClassScanner.findSubclasses(BaseModel.class)) {
-                CLASSES.put(clazz.getSimpleName(), (Class<? extends BaseModel>) clazz);
+                @SuppressWarnings("unchecked")
+                var subClass = (Class<? extends BaseModel>) clazz;
+                CLASSES.put(clazz.getSimpleName(), subClass);
             }
         } catch (IOException | ReflectiveOperationException | URISyntaxException e) {
             throw new RuntimeException(e);

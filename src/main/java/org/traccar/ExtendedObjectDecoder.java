@@ -76,7 +76,7 @@ public abstract class ExtendedObjectDecoder extends ChannelInboundHandlerAdapter
                 decodedMessage = handleEmptyMessage(ctx.channel(), networkMessage.getRemoteAddress(), originalMessage);
             }
             if (decodedMessage != null) {
-                if (decodedMessage instanceof Collection collection) {
+                if (decodedMessage instanceof Collection<?> collection) {
                     ctx.writeAndFlush(new AcknowledgementHandler.EventDecoded(collection));
                     for (Object o : collection) {
                         saveOriginal(o, originalMessage);

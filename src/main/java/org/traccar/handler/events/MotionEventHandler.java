@@ -80,7 +80,7 @@ public class MotionEventHandler extends BaseEventHandler {
         state.setMotionStreak(device.getMotionStreak());
         state.setPositions(cacheManager.getPositions(device.getId()));
         if (device.hasAttribute("motionTime")) {
-            // TODO temporary migration path
+            // Migration path for legacy motion attributes
             state.setEventPosition(
                     new Date(((Number) device.getAttributes().remove("motionTime")).longValue()),
                     ((Number) device.getAttributes().remove("motionLat")).doubleValue(),

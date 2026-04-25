@@ -2977,6 +2977,15 @@ components:
         engineHours:
           type: integer
           description: Engine hours accumulated for the report period
+        ignitionOnDuration:
+          type: integer
+          description: Ignition on duration in seconds
+        ignitionOffDuration:
+          type: integer
+          description: Ignition off duration in seconds
+        ignitionIdleDuration:
+          type: integer
+          description: Ignition idle duration in seconds
     ReportGeofences:
       type: object
       properties:

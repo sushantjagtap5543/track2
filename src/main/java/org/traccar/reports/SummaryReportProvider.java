@@ -73,10 +73,14 @@ public class SummaryReportProvider {
 
         Position first = null;
         Position last = null;
+        long ignitionOnDuration = 0;
+        long ignitionIdleDuration = 0;
+
         if (fast) {
             first = PositionUtil.getEdgePosition(storage, device.getId(), from, to, false);
             last = PositionUtil.getEdgePosition(storage, device.getId(), from, to, true);
         } else {
+            Position lastPosition = null;
             var positions = PositionUtil.getPositions(storage, device.getId(), from, to);
             for (Position position : positions) {
                 if (first == null) {
@@ -85,6 +89,16 @@ public class SummaryReportProvider {
                 if (position.getSpeed() > result.getMaxSpeed()) {
                     result.setMaxSpeed(position.getSpeed());
                 }
+                if (lastPosition != null) {
+                    long duration = position.getFixTime().getTime() - lastPosition.getFixTime().getTime();
+                    if (lastPosition.getBoolean(Position.KEY_IGNITION)) {
+                        ignitionOnDuration += duration;
+                        if (!lastPosition.getBoolean(Position.KEY_MOTION) && lastPosition.getSpeed() <= 0.1) {
+                            ignitionIdleDuration += duration;
+                        }
+                    }
+                }
+                lastPosition = position;
                 last = position;
             }
         }
@@ -103,7 +117,15 @@ public class SummaryReportProvider {
                 if (engineHours > 0) {
                     result.setAverageSpeed(UnitsConverter.knotsFromMps(result.getDistance() * 1000 / engineHours));
                 }
+                if (fast) {
+                    ignitionOnDuration = engineHours;
+                }
             }
+
+            result.setIgnitionOnDuration(ignitionOnDuration);
+            result.setIgnitionIdleDuration(ignitionIdleDuration);
+            result.setIgnitionOffDuration(Math.max(0,
+                    last.getFixTime().getTime() - first.getFixTime().getTime() - ignitionOnDuration));
 
             if (!ignoreOdometer
                     && first.getDouble(Position.KEY_ODOMETER) != 0 && last.getDouble(Position.KEY_ODOMETER) != 0) {
