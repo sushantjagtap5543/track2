@@ -50,8 +50,9 @@
     <entry key='filter.accuracy'>50</entry>
     <entry key='filter.maxSpeed'>250</entry> <!-- Knots -->
 
-    <!-- Redis Broadcasting -->
+    <!-- Redis Broadcasting (Disabled for local simulation testing)
     <entry key='broadcast.type'>redis</entry>
     <entry key='broadcast.address'>redis://localhost:6379</entry>
+    -->
 
 </properties>
